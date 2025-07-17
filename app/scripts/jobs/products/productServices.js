@@ -7,9 +7,14 @@ async function fetchNavItems(ref = '') {
       Reference: ref
     }
   };
-
+  const token = Buffer.from(`${process.env.TUNIMATEC_NAV_USERNAME}:${process.env.TUNIMATEC_NAV_PASSWORD}`).toString('base64');
   try {
-    const response = await axios.post(process.env.GET_Items, reqBody);
+    const response = await axios.post(process.env.GET_Items, reqBody,{
+        headers: {
+          'Authorization': `Basic ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
     return response.data;
   } catch (err) {
     console.error('API error:', err.message);

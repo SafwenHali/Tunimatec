@@ -13,3 +13,5 @@ app.listen(process.env.PORT, () => {
 });
 
 require('./app/scripts/jobs/jobs');
+//require('./app/utils/monitor');
+

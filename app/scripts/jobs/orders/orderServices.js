@@ -130,8 +130,13 @@ exports.sendOrder = async (cart, contact) => {
         Lignes: Lignes
       }
     };
-
-    const response = await axios.post(process.env.ADD_Order, commande);
+    const token = Buffer.from(`${process.env.TUNIMATEC_NAV_USERNAME}:${process.env.TUNIMATEC_NAV_PASSWORD}`).toString('base64');
+    const response = await axios.post(process.env.ADD_Order, commande,{
+        headers: {
+          'Authorization': `Basic ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
     console.log('Success:', response.data);
     return response.data;
 

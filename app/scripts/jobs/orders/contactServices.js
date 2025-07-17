@@ -18,7 +18,7 @@ async function getAdressByID(id) {
    
    const result = {
         Adresse : address.address1,
-        Téléphone : address.phone,
+        Téléphone : address.postcode, //prestashop template sets telephone number as postcode
         Cité :address.city,
     } ;
 
@@ -62,7 +62,7 @@ exports.sendConstact = async (clientID, adressID) => {
   try {
     const adress = await getAdressByID(adressID);
     const customer = await getCustomerByID(clientID);
-
+    
     const contact = {
       request: {
         Nom: customer.Nom,
@@ -74,8 +74,13 @@ exports.sendConstact = async (clientID, adressID) => {
         Sexe: customer.Sexe
       }
     };
-
-    const response = await axios.post(process.env.ADD_Contact, contact);
+    const token = Buffer.from(`${process.env.TUNIMATEC_NAV_USERNAME}:${process.env.TUNIMATEC_NAV_PASSWORD}`).toString('base64');
+    const response = await axios.post(process.env.ADD_Contact, contact,{
+        headers: {
+          'Authorization': `Basic ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
     console.log('Success:', response.data);
     return response.data;
   } catch (error) {

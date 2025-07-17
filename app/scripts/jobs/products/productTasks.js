@@ -1,4 +1,4 @@
-const {updateChangedProducts,addMissingProducts} = require('./productServices')
+const {updateChangedProducts} = require('./productServices')
 
 async function existingProductsSync() {
    try {
